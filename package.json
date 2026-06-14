@@ -1,0 +1,12 @@
+{
+  "name": "dialog-live-showcase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A recruiter-facing architectural showcase for Dialog Live.",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
