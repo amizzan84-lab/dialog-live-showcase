@@ -10,7 +10,7 @@ Dialog Live combines agentic AI, voice interaction, custom knowledge memory,
 neural character animation, desktop authoring tools, and managed remote
 infrastructure.
 
-This repository is a recruiter-facing case study. The commercial product is
+This repository is a case study. The commercial product is
 proprietary and its production code is intentionally not published.
 
 ## Product Preview
