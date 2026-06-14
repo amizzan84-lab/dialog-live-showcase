@@ -21,7 +21,12 @@ The project is larger than the avatar visible to the end user. It includes:
 2. **Dialog Live**, the realtime application experienced by visitors.
 3. **An agentic AI platform**, where every character can reason, use approved
    tools, access scoped knowledge, and produce a voice response.
-4. **A remote platform**, used to manage AI configurations, customers,
+4. **Wiki LLM memory**, a custom knowledge architecture designed for coherent,
+   low-latency character answers.
+5. **A neural avatar runtime**, which turns generated speech into synchronized
+   facial animation.
+6. **A managed remote platform**, used to run protected AI services and manage
+   configurations, customers,
    installations, access, knowledge, logs, and updates.
 
 This repository explains the engineering work behind those areas without
@@ -35,6 +40,9 @@ publishing enough detail to reproduce the commercial platform.
 | ElevenLabs Grants participant | External recognition of the voice AI use case |
 | End-to-end product ownership | Authoring, AI, realtime media, operations, and delivery |
 | Per-character AI agents | Configurable reasoning, tools, knowledge, memory, and voice |
+| Custom Wiki LLM memory | Contextual knowledge designed beyond traditional chunk retrieval |
+| Neural realtime animation | GPU-accelerated lip synchronization driven by generated speech |
+| Dedicated managed infrastructure | Protected AI, knowledge, authorization, logs, and operations |
 | Remote customer management | Production lifecycle beyond a single local installation |
 | Structured logs and diagnostics | Supportability and operational accountability |
 
@@ -45,13 +53,16 @@ flowchart LR
     CREATOR["Content creator"]
     STUDIO["Dialog Studio"]
     AGENTS["Agentic AI Platform"]
+    WIKI["Wiki LLM Memory"]
     PLATFORM["Remote Platform"]
     LIVE["Dialog Live Installation"]
     VISITOR["Visitor"]
 
     CREATOR -->|"creates and publishes a character"| STUDIO
     STUDIO -->|"publishes approved behavior"| AGENTS
+    STUDIO -->|"curates character knowledge"| WIKI
     STUDIO -->|"customer and release management"| PLATFORM
+    AGENTS <-->|"knowledge tool"| WIKI
     AGENTS <-->|"authorized conversations"| LIVE
     PLATFORM -->|"installation access and policy"| LIVE
     VISITOR <-->|"realtime voice interaction"| LIVE
@@ -145,7 +156,49 @@ not published.
 
 [Read the agentic AI case study](docs/agentic-ai-platform.md)
 
-## 3. Dialog Live Runtime
+## 3. Wiki LLM Knowledge Memory
+
+Traditional Retrieval-Augmented Generation often treats source material as
+independent text chunks selected mainly by similarity. That approach can return
+fragments with weak narrative context, duplicate facts, or content that is
+difficult for a realtime character to turn into a natural answer.
+
+Dialog Live replaces that earlier approach with a custom **Wiki LLM** memory
+layer.
+
+```mermaid
+flowchart LR
+    SOURCES["Approved source material"]
+    ORGANIZE["LLM-assisted knowledge organization"]
+    WIKI["Character Wiki Memory"]
+    TOOL["Knowledge Tool"]
+    AGENT["Character Agent"]
+    ANSWER["Contextual spoken answer"]
+
+    SOURCES --> ORGANIZE --> WIKI
+    AGENT -->|"asks when needed"| TOOL
+    TOOL -->|"searches scoped pages"| WIKI
+    TOOL -->|"relevant context"| AGENT
+    AGENT --> ANSWER
+```
+
+Instead of exposing raw documents to the agent, approved content is organized
+into topic-oriented wiki knowledge. At conversation time, a dedicated tool
+searches only the knowledge assigned to the current customer and character,
+then returns focused context to the agent.
+
+This improves:
+
+- Coherence across related facts
+- Suitability for natural spoken answers
+- Customer and character isolation
+- Knowledge maintenance and targeted cleanup
+- Predictability in a realtime interaction
+- Reuse of the same agent pipeline across different domains
+
+[Read the Wiki LLM memory case study](docs/wiki-llm-memory.md)
+
+## 4. Dialog Live Runtime
 
 Dialog Live is the visitor-facing application. It coordinates microphone input,
 conversation processing, generated speech, character animation, and UI state as
@@ -168,6 +221,11 @@ flowchart LR
     AVATAR -->|"synchronized response"| USER
 ```
 
+The avatar response is not a simple pre-recorded talking video. A local,
+GPU-accelerated neural inference pipeline analyzes the generated speech and
+renders character-specific lip and facial motion while the response is being
+presented.
+
 The runtime also has to manage:
 
 - Listening, processing, speaking, idle, cancellation, and error states
@@ -184,7 +242,47 @@ and optimization techniques are not included here.
 
 [Read the Dialog Live runtime case study](docs/dialog-live-runtime.md)
 
-## 4. Remote Platform
+## 5. Managed VPS Platform
+
+Dialog Live uses dedicated managed server infrastructure so commercial
+installations do not need to contain provider credentials, AI configuration,
+customer administration, knowledge services, or proprietary orchestration.
+
+The VPS environment runs the protected service layer:
+
+- Authorized conversation endpoints for multiple characters
+- Per-character brain loading and remote refresh
+- Agent orchestration, tools, and provider integrations
+- Wiki LLM knowledge services
+- Customer and installation validation
+- Conversation and usage logging
+- Health diagnostics and remote maintenance
+- Containerized deployment and controlled service updates
+
+```mermaid
+flowchart TB
+    KIOSKS["Client Installations"]
+    EDGE["Secure Public Entry"]
+    BRAIN["Managed Agent Service"]
+    WIKI["Wiki LLM Service"]
+    DATA["Protected Data Platform"]
+    CONFIG["Remote Character Config"]
+    OPS["Deployment and Health Operations"]
+
+    KIOSKS --> EDGE --> BRAIN
+    BRAIN <--> WIKI
+    BRAIN <--> DATA
+    BRAIN <--> CONFIG
+    OPS --> BRAIN
+    OPS --> WIKI
+```
+
+The exact provider, host, network topology, endpoint structure, and deployment
+commands are intentionally omitted.
+
+[Read the managed infrastructure case study](docs/managed-infrastructure.md)
+
+## 6. Remote Management
 
 The remote platform separates protected intelligence and administration from
 the software delivered to an installation.
@@ -264,10 +362,13 @@ operations:
 - Built the realtime interaction lifecycle in Dialog Live
 - Built a per-character agent architecture with memory and tool calling
 - Designed an extensible tool contract for new knowledge and business capabilities
+- Replaced the earlier RAG approach with a custom Wiki LLM knowledge memory
 - Integrated speech-to-text and text-to-speech into the conversational lifecycle
 - Added language-aware voice preparation for more natural spoken output
 - Integrated replaceable language, knowledge, speech, and voice providers
+- Integrated a GPU neural pipeline for speech-driven character animation
 - Designed per-character configuration and remote update behavior
+- Built the dedicated VPS service layer for protected AI and knowledge workloads
 - Built customer, installation, credential, and release-management workflows
 - Implemented structured conversation logging and operational diagnostics
 - Designed thin client distribution so protected services remain remote
@@ -287,11 +388,11 @@ support installations.
 | Realtime communication | WebSocket and browser media APIs |
 | Agentic AI | LLM orchestration, native tool calling, provider adapters |
 | Voice AI | ElevenLabs Speech-to-Text and Text-to-Speech |
-| Knowledge | Character-scoped retrieval and extensible tool adapters |
+| Knowledge | Custom Wiki LLM memory and character-scoped tool access |
 | Data platform | Supabase, PostgreSQL, row-level access control |
-| Remote runtime | Docker, reverse proxy, managed Linux services |
+| Remote runtime | Dedicated VPS, Docker, reverse proxy, managed Linux services |
 | Delivery | GitHub Actions, desktop packaging, thin client releases |
-| Media | WebGL and hardware-accelerated visual processing |
+| Media | Neural inference, WebGL, and hardware-accelerated visual processing |
 
 The table communicates the breadth of the work without acting as a production
 dependency manifest or implementation guide.
@@ -303,6 +404,8 @@ demo to a system that can be delivered:
 
 - Repeatable character onboarding instead of hand-built configuration
 - Tool-enabled agents instead of fixed question-and-answer scripts
+- Structured Wiki LLM memory instead of generic chunk retrieval alone
+- Neural speech-driven animation instead of fixed response videos
 - Customer and installation isolation
 - Protected remote services and thin distributed clients
 - Revocable installation access
@@ -320,7 +423,9 @@ These capabilities are now used in operational projects for multiple clients.
 | --- | --- |
 | [Dialog Studio](docs/dialog-studio.md) | Character creation, testing, validation, publishing, and export |
 | [Agentic AI Platform](docs/agentic-ai-platform.md) | Per-character agents, tool calling, STT, TTS, memory, and extensibility |
+| [Wiki LLM Memory](docs/wiki-llm-memory.md) | Custom contextual knowledge architecture replacing the earlier RAG approach |
 | [Dialog Live Runtime](docs/dialog-live-runtime.md) | Visitor interaction and realtime application responsibilities |
+| [Managed Infrastructure](docs/managed-infrastructure.md) | Dedicated VPS responsibilities, protected services, and operations |
 | [Remote Platform](docs/remote-platform.md) | Remote brains, customers, installations, credentials, and delivery |
 | [Data and Observability](docs/data-and-observability.md) | Database concepts, conversation logs, usage, and health diagnostics |
 | [Mock Contracts](src/contracts/index.ts) | Small illustrative interfaces with no production behavior |

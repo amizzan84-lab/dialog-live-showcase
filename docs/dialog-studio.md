@@ -69,6 +69,24 @@ adapters can be integrated into the platform and then enabled only for the
 characters that require them, preserving both flexibility and least-privilege
 access.
 
+## Wiki LLM Knowledge Management
+
+Studio connects source content to the correct customer and character before it
+is processed by the Wiki LLM service.
+
+This workflow coordinates:
+
+- Source ownership
+- Character-specific processing
+- Knowledge updates
+- Search testing
+- Remote knowledge availability
+- Scoped removal of sources and generated wiki pages
+
+The authoring experience keeps knowledge management alongside character
+configuration without giving the desktop client direct access to protected
+production data.
+
 ## Integrated Testing
 
 The application includes a focused conversation test that does not require the

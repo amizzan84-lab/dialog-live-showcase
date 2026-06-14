@@ -94,6 +94,10 @@ Benefits include:
 - Reduced exposure of proprietary technology
 - Easier operational support
 
+The protected services used by these clients run on dedicated managed VPS
+infrastructure. This includes the multi-character agent runtime, Wiki LLM
+service, authorization, logging, configuration refresh, and health operations.
+
 ## Remote Maintenance
 
 The platform supports controlled maintenance actions for character resources,

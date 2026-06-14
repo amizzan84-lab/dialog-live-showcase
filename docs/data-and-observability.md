@@ -67,6 +67,9 @@ Approved knowledge is scoped to both customer and character. This prevents two
 characters belonging to the same customer from accidentally sharing content
 that was intended for only one experience.
 
+The custom Wiki LLM layer stores source ownership separately from the generated,
+topic-oriented knowledge pages used during conversations.
+
 Cleanup uses the same scope so removing one character does not delete the
 customer's unrelated knowledge.
 

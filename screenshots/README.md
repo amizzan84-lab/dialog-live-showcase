@@ -11,8 +11,11 @@ images. Each image must help explain one part of the product story.
 | Dialog Studio | Sanitized character overview | One place for media, AI, testing, and delivery |
 | Dialog Studio workflow | Character validation or export screen | Production workflow and operational depth |
 | Agentic AI | Recreated tool-calling diagram | Memory, tools, knowledge, STT, and TTS |
+| Wiki LLM | Recreated knowledge flow | Why contextual wiki memory replaced traditional RAG |
 | Dialog Live | Character in idle and speaking states | Realtime visitor-facing presentation |
+| Neural rendering | Simplified speech-to-animation diagram | Realtime AI-driven lip synchronization |
 | Remote management | Sanitized customer or installation view | Customer and kiosk lifecycle management |
+| Managed VPS | Recreated infrastructure diagram | Protected AI, knowledge, data, and operations |
 | Observability | Recreated diagram, not a production screenshot | Logs, usage, and health as separate signals |
 
 ## Presentation Rules

@@ -157,6 +157,10 @@ current date and time.
 Knowledge is scoped to the intended customer and character. Agents access it
 through approved tools rather than receiving unrestricted database access.
 
+Dialog Live's primary persistent knowledge tool is the custom Wiki LLM memory
+layer. It organizes approved source material into coherent topic pages and
+replaces the platform's earlier, more traditional chunk-based RAG approach.
+
 This supports:
 
 - Different knowledge for different characters
@@ -165,6 +169,10 @@ This supports:
 - Precise cleanup
 - Provider replacement
 - Clear audit and ownership boundaries
+
+Session conversation memory and Wiki LLM knowledge are intentionally separate:
+one preserves recent dialogue, while the other preserves managed domain
+knowledge.
 
 ## Provider Abstraction
 
