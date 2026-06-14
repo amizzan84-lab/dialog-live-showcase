@@ -35,6 +35,25 @@ The two images show the same character moving from an idle presentation into a
 generated speaking state. The voice response and facial motion are coordinated
 at runtime rather than selected from a library of complete recorded answers.
 
+## Designed For Physical Spaces
+
+Dialog Live is designed for installations where a digital character becomes
+part of the environment rather than another app on a personal device.
+
+![Illustrative Dialog Live cultural installation](screenshots/mockup-cultural-installation.png)
+
+*Illustrative concept: a historical character engaging visitors in a museum or
+cultural venue.*
+
+![Illustrative Dialog Live family entertainment installation](screenshots/mockup-family-entertainment.png)
+
+*Illustrative concept: a stylized character creating an interactive experience
+for families in an entertainment venue.*
+
+These are concept mockups, not photographs of customer deployments. They show
+how the same platform can support different audiences, visual identities,
+knowledge domains, and physical contexts.
+
 The project is larger than the avatar visible to the end user. It includes:
 
 1. **Dialog Studio**, a desktop application used to create and configure each

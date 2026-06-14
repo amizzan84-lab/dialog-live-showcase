@@ -9,6 +9,8 @@ This folder contains only media approved for the portfolio repository.
 | `dialog-live-dante-idle.png` | Hero view of the idle character experience |
 | `dialog-live-dante-speaking.png` | Hero view of speech-driven neural animation |
 | `dialog-live-einstein.png` | A second configuration-driven character experience |
+| `mockup-cultural-installation.png` | Illustrative museum and cultural-venue concept |
+| `mockup-family-entertainment.png` | Illustrative family-entertainment concept |
 | `dialog-studio-overview.png` | Character readiness and Studio workflow overview |
 | `dialog-studio-animation-management.png` | Visual-state and animation asset management |
 | `dialog-studio-wiki-llm.png` | Character-scoped Wiki LLM management |
