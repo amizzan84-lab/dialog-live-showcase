@@ -1,203 +1,238 @@
 # Dialog Live Showcase
 
-> **Portfolio showcase, not the commercial product.** Dialog Live is a
-> proprietary platform. Its production source code and internal documentation
-> cannot be published for confidentiality, security, and intellectual-property
-> reasons.
+> **This is a portfolio case study, not the Dialog Live product.**
+>
+> Dialog Live is proprietary software. The production source code, internal
+> prompts, customer configurations, deployment procedures, and implementation
+> details cannot be published for confidentiality, security, and
+> intellectual-property reasons.
 
-Dialog Live is a platform for building interactive digital characters that can
-listen, reason over approved information, answer with a voice, and present the
-response through a responsive visual experience.
+Dialog Live is an end-to-end platform for creating, operating, and remotely
+managing conversational digital characters.
 
-This repository presents the engineering scope, architectural thinking, and
-system-design challenges behind the project. Every diagram, interface, service
-name, and code example is an intentionally simplified abstraction.
+The project is larger than the avatar visible to the end user. It includes:
 
-## What Dialog Live Is
+1. **Dialog Studio**, a desktop application used to create and configure each
+   character.
+2. **Dialog Live**, the realtime application experienced by visitors.
+3. **A remote platform**, used to manage AI configurations, customers,
+   installations, access, knowledge, logs, and updates.
 
-Dialog Live turns a voice interaction into a coordinated conversational
-experience. It brings together speech processing, AI orchestration, controlled
-knowledge access, voice generation, realtime media, configuration tooling, and
-operational controls.
+This repository explains the engineering work behind those three areas without
+publishing enough detail to reproduce the commercial platform.
 
-The platform is designed for experiences where a generic chat interface is not
-enough: exhibitions, cultural venues, branded installations, guided
-experiences, education, hospitality, and interactive presentations.
-
-## Key Capabilities
-
-- Voice-first interaction with responsive conversational characters
-- Configurable character identity, behavior, voice, and approved knowledge
-- Realtime coordination between conversational and visual subsystems
-- Multiple deployment profiles for managed installations
-- Administrative tooling for configuration and lifecycle management
-- Provider-independent service boundaries
-- Interruption, recovery, fallback, and operational diagnostics
-- Secure separation between customer-facing runtime and protected services
-
-## My Engineering Scope
-
-The work behind Dialog Live includes:
-
-- End-to-end system architecture and service boundaries
-- Conversational orchestration and provider abstraction
-- Realtime audio and visual interaction lifecycle
-- Character configuration and content-management workflows
-- Administrative tooling for repeatable setup and delivery
-- Deployment, update, diagnostics, and failure-recovery strategies
-- Security boundaries for credentials, configurations, and customer data
-- Performance work across latency, media quality, and constrained hardware
-
-This showcase focuses on the reasoning behind those responsibilities rather
-than the proprietary mechanisms used to implement them.
-
-## System Architecture
+## The Product In One Diagram
 
 ```mermaid
 flowchart LR
-    U["User"]
-    STT["Speech Recognition"]
-    BRAIN["Conversation Orchestrator"]
-    KNOW["Approved Knowledge Layer"]
-    TTS["Speech Synthesis"]
-    AVATAR["Realtime Avatar Runtime"]
+    CREATOR["Content creator"]
+    STUDIO["Dialog Studio"]
+    PLATFORM["Remote Platform"]
+    LIVE["Dialog Live Installation"]
+    VISITOR["Visitor"]
 
-    U -->|"voice input"| STT
-    STT -->|"transcript"| BRAIN
-    BRAIN <-->|"controlled queries"| KNOW
-    BRAIN -->|"response intent"| TTS
-    TTS -->|"generated voice"| AVATAR
-    AVATAR -->|"audio-visual response"| U
+    CREATOR -->|"creates and publishes a character"| STUDIO
+    STUDIO -->|"approved configuration and release"| PLATFORM
+    PLATFORM -->|"managed AI and access"| LIVE
+    VISITOR <-->|"realtime voice interaction"| LIVE
+    LIVE -->|"usage, health, and conversation logs"| PLATFORM
 ```
 
-The production system has additional security, lifecycle, observability, and
-recovery concerns that are deliberately omitted.
+The production system contains additional services and security boundaries that
+are intentionally omitted.
 
-## Realtime Interaction Flow
+## 1. Dialog Studio
 
-1. The experience captures an explicit user interaction.
-2. A speech boundary converts audio into a normalized transcript.
-3. The orchestrator combines conversation context with approved capabilities.
-4. The knowledge boundary returns only information available to that character.
-5. The response is transformed into speech.
-6. The visual runtime coordinates presentation and user interruption.
-7. Operational signals record health and performance without exposing content.
+Dialog Studio turns a complex technical workflow into a guided desktop
+experience. It is the control center used before a character reaches a kiosk.
 
-The exact protocols, buffering strategy, synchronization method, timing
-parameters, models, and media pipeline are proprietary and are not represented
-here.
+### What It Handles
 
-## Administration Flow
+- Creating and editing character profiles
+- Importing and organizing idle, listening, and speaking media
+- Preparing character-specific realtime animation assets
+- Configuring voice, language, personality, and approved AI capabilities
+- Managing character-specific knowledge sources
+- Testing conversation behavior without launching the complete installation
+- Validating missing files, incompatible configuration, and incomplete assets
+- Publishing protected AI configuration to the remote platform
+- Associating characters with customers and installations
+- Producing different release packages for local testing and managed delivery
+- Updating or removing local and remote character resources
 
 ```mermaid
 flowchart LR
-    ADMIN["Administrator"]
-    DASH["Management Dashboard"]
-    CONFIG["Character Configuration"]
-    POLICY["Validation and Policy"]
-    RUNTIME["Managed Runtime"]
+    CREATE["Create character"]
+    MEDIA["Prepare media"]
+    BRAIN["Configure AI behavior"]
+    TEST["Test and validate"]
+    CUSTOMER["Assign customer"]
+    PUBLISH["Publish remote configuration"]
+    EXPORT["Build installation package"]
 
-    ADMIN --> DASH
-    DASH --> CONFIG
-    CONFIG --> POLICY
-    POLICY -->|"approved configuration"| RUNTIME
-    RUNTIME -->|"health and status"| DASH
+    CREATE --> MEDIA --> BRAIN --> TEST
+    TEST --> CUSTOMER --> PUBLISH --> EXPORT
 ```
 
-This separation allows creative configuration to evolve without granting the
-client runtime access to protected operational systems.
+The main engineering challenge was not building a form. It was making a
+multi-service production process repeatable, validated, and understandable for
+someone who should not need to operate the underlying tools manually.
 
-## Simplified Demo Architecture
+[Read the Dialog Studio case study](docs/dialog-studio.md)
+
+## 2. Dialog Live Runtime
+
+Dialog Live is the visitor-facing application. It coordinates microphone input,
+conversation processing, generated speech, character animation, and UI state as
+one continuous realtime experience.
+
+### What Happens During An Interaction
+
+```mermaid
+flowchart LR
+    USER["Visitor speaks"]
+    SPEECH["Speech recognition"]
+    BRAIN["Character AI"]
+    KNOWLEDGE["Approved knowledge"]
+    VOICE["Voice generation"]
+    AVATAR["Realtime avatar"]
+
+    USER --> SPEECH --> BRAIN
+    BRAIN <-->|"when relevant"| KNOWLEDGE
+    BRAIN --> VOICE --> AVATAR
+    AVATAR -->|"synchronized response"| USER
+```
+
+The runtime also has to manage:
+
+- Listening, processing, speaking, idle, cancellation, and error states
+- User interruption while a response is being produced or presented
+- Coordination between audio availability and visual readiness
+- Smooth transitions between pre-recorded and generated character states
+- Multiple character configurations without product-specific forks
+- Local hardware and service startup
+- Health checks, recovery, and actionable diagnostics
+- Kiosk packaging, updates, and unattended operation
+
+The proprietary media pipeline, synchronization strategy, timing parameters,
+and optimization techniques are not included here.
+
+[Read the Dialog Live runtime case study](docs/dialog-live-runtime.md)
+
+## 3. Remote Platform
+
+The remote platform separates protected intelligence and administration from
+the software delivered to an installation.
+
+It supports:
+
+- Centrally managed character AI configurations
+- Remote updates to behavior, voice, capabilities, and approved knowledge
+- Customer and project organization
+- Individual installation activation, suspension, and optional expiration
+- Installation-specific access credentials
+- Reusable or revocable credential lifecycle
+- Thin client packages that do not contain server secrets
+- Remote health and usage visibility
+- Removal and maintenance of character resources
 
 ```mermaid
 flowchart TB
-    UI["Illustrative Client"]
-    CONTRACTS["Public Interfaces"]
-    STTMOCK["MockSpeechToText"]
-    AGENTMOCK["MockAgent"]
-    KNOWMOCK["MockKnowledgeService"]
-    AVATARMOCK["MockAvatarRenderer"]
+    STUDIO["Dialog Studio"]
+    CONFIG["Character Configuration Store"]
+    CONTROL["Customer and Installation Control"]
+    AI["Managed Conversation Services"]
+    DATA["Operational Data"]
+    KIOSK["Dialog Live Installation"]
 
-    UI --> CONTRACTS
-    CONTRACTS --> STTMOCK
-    STTMOCK --> AGENTMOCK
-    AGENTMOCK <--> KNOWMOCK
-    AGENTMOCK --> AVATARMOCK
+    STUDIO --> CONFIG
+    STUDIO --> CONTROL
+    CONFIG --> AI
+    CONTROL -->|"authorizes"| KIOSK
+    KIOSK <-->|"conversation requests"| AI
+    AI --> DATA
+    KIOSK -->|"health and usage"| DATA
 ```
 
-The TypeScript files in `src/` exist only to illustrate clean boundaries. They
-do not call external services, process real media, contain prompts, or reproduce
-production behavior.
+[Read about remote management](docs/remote-platform.md)
 
-## Technology Stack
+## Data, Logs, And Observability
 
-The commercial platform spans several technology domains:
+Dialog Live uses structured operational data rather than treating every kiosk
+as an isolated application.
 
-| Area | Representative technologies |
+The platform maintains conceptual records for:
+
+| Area | Purpose |
 | --- | --- |
-| Experience layer | React, TypeScript, browser media APIs |
-| Service layer | Python services, typed configuration, asynchronous processing |
-| Communication | Request/response APIs and realtime messaging |
-| AI integration | Replaceable speech, language, and knowledge adapters |
-| Media runtime | Hardware-accelerated visual processing |
-| Operations | Containerized services, managed data, health diagnostics |
-| Delivery | Desktop and kiosk-oriented distribution workflows |
+| Customers | Identify the organization receiving the experience |
+| Projects and characters | Separate experiences belonging to the same customer |
+| Installations | Represent each deployed kiosk independently |
+| Access credentials | Authorize, rotate, reuse, or revoke installation access |
+| Knowledge content | Scope approved information to the correct customer and character |
+| Conversations | Record session context and operational metadata |
+| Usage | Attribute service consumption to an installation |
+| Health diagnostics | Explain whether logging and dependencies are operating correctly |
 
-This is a capability-level summary, not an inventory of the production stack.
+Conversation logging is designed to answer practical operational questions:
 
-## Design Principles
+- Which customer, project, character, and installation handled the interaction?
+- Which model and optional capabilities were active?
+- Was the request a real visitor interaction or an internal test?
+- Did the conversation log successfully?
+- Is service usage increasing even if another logging path has failed?
+- When did an installation last communicate successfully?
 
-- **Explicit boundaries:** speech, reasoning, knowledge, voice, and visuals can
-  evolve independently.
-- **Configuration over forks:** characters share a platform while retaining
-  isolated identities and approved capabilities.
-- **Latency is experiential:** perceived responsiveness is treated as a product
-  concern, not only a backend metric.
-- **Interruptibility matters:** realtime experiences must respect changing user
-  intent.
-- **Protected intelligence:** secrets, prompts, customer configuration, and
-  proprietary processing remain outside distributed clients.
-- **Observable failure:** health signals and actionable diagnostics are designed
-  into the system.
-- **Graceful degradation:** dependency failures should lead to controlled
-  outcomes rather than broken experiences.
+Internal tests are explicitly excluded from customer conversation history.
+Sensitive credentials are not stored in logs, and administrative database
+access is kept on protected services rather than distributed clients.
 
-More context is available in [Design Principles](docs/design-principles.md) and
-[Realtime Considerations](docs/realtime-considerations.md).
+[Read about data and observability](docs/data-and-observability.md)
 
-## Example Use Cases
+## What I Built
 
-- A historical figure answering visitor questions in a museum
-- A branded host welcoming guests at an event or showroom
-- A guided character presenting approved educational material
-- A multilingual concierge for a public installation
-- An interactive spokesperson connected to curated organizational knowledge
+My work on Dialog Live spans product engineering, AI systems, media runtime, and
+operations:
 
-These examples describe product categories and do not represent customer
-deployments.
+- Designed the overall architecture and service boundaries
+- Built the character creation and management workflow in Dialog Studio
+- Built the realtime interaction lifecycle in Dialog Live
+- Integrated replaceable speech, language, knowledge, and voice services
+- Designed per-character configuration and remote update behavior
+- Built customer, installation, credential, and release-management workflows
+- Implemented structured conversation logging and operational diagnostics
+- Designed thin client distribution so protected services remain remote
+- Built packaging, update, validation, cleanup, and recovery workflows
+- Optimized realtime performance for production hardware
 
-## Screenshots
+This was an end-to-end product effort: from the visitor interaction to the
+desktop authoring tools and the operational systems needed to deliver and
+support installations.
 
-Public-safe screenshots and short product clips will be added after a dedicated
-review for customer information, internal controls, file paths, endpoints, and
-other sensitive details.
+## Technology Areas
 
-See the [screenshot guidelines](screenshots/README.md).
+- React, TypeScript, and Electron desktop applications
+- Python service architecture and asynchronous processing
+- Realtime browser media and bidirectional communication
+- AI orchestration with replaceable provider boundaries
+- Managed relational data and access control
+- Hardware-accelerated media processing
+- Containerized remote services
+- Automated packaging, update, and deployment workflows
 
-## Repository Map
+This list describes technology areas only. It is not a production dependency
+manifest.
 
-```text
-dialog-live-showcase/
-├── architecture/          # Public-safe diagrams and diagram policy
-├── docs/                  # Architecture and engineering case-study notes
-├── screenshots/           # Reviewed portfolio media placeholders
-├── src/
-│   ├── contracts/         # Illustrative interfaces only
-│   └── mock-services/     # Non-functional placeholder implementations
-├── LICENSE.md
-├── SECURITY.md
-└── README.md
-```
+## Repository Guide
+
+| Document | What it explains |
+| --- | --- |
+| [Dialog Studio](docs/dialog-studio.md) | Character creation, testing, validation, publishing, and export |
+| [Dialog Live Runtime](docs/dialog-live-runtime.md) | Visitor interaction and realtime application responsibilities |
+| [Remote Platform](docs/remote-platform.md) | Remote brains, customers, installations, credentials, and delivery |
+| [Data and Observability](docs/data-and-observability.md) | Database concepts, conversation logs, usage, and health diagnostics |
+| [Mock Contracts](src/contracts/index.ts) | Small illustrative interfaces with no production behavior |
+| [Screenshot Plan](screenshots/README.md) | Public-safe media still to be reviewed and added |
 
 ## Portfolio Disclaimer
 
@@ -206,6 +241,6 @@ dialog-live-showcase/
 > internal models, customer configurations, or implementation details of the
 > commercial platform.
 
-All diagrams, interfaces, names, and examples are illustrative abstractions.
+All diagrams, interfaces, names, and examples are simplified for communication.
 They do not reproduce the production architecture and are not intended to
 provide a blueprint for rebuilding the platform.
