@@ -1,22 +1,31 @@
-# Screenshot Plan
+# Screenshots
 
-The final public showcase should use a small number of annotated, sanitized
-images. Each image must help explain one part of the product story.
+This folder contains only media approved for the portfolio repository.
 
-## Planned Story
+## Published Assets
 
-| Section | Suggested image | What it should demonstrate |
-| --- | --- | --- |
-| Product overview | Staged visitor interaction | The finished conversational experience |
-| Dialog Studio | Sanitized character overview | One place for media, AI, testing, and delivery |
-| Dialog Studio workflow | Character validation or export screen | Production workflow and operational depth |
-| Agentic AI | Recreated tool-calling diagram | Memory, tools, knowledge, STT, and TTS |
-| Wiki LLM | Recreated knowledge flow | Why contextual wiki memory replaced traditional RAG |
-| Dialog Live | Character in idle and speaking states | Realtime visitor-facing presentation |
-| Neural rendering | Simplified speech-to-animation diagram | Realtime AI-driven lip synchronization |
-| Remote management | Sanitized customer or installation view | Customer and kiosk lifecycle management |
-| Managed VPS | Recreated infrastructure diagram | Protected AI, knowledge, data, and operations |
-| Observability | Recreated diagram, not a production screenshot | Logs, usage, and health as separate signals |
+| File | Purpose |
+| --- | --- |
+| `dialog-live-dante-idle.png` | Hero view of the idle character experience |
+| `dialog-live-dante-speaking.png` | Hero view of speech-driven neural animation |
+| `runtime-ai-loading.png` | Runtime initialization |
+| `runtime-animation-loading.png` | Character animation preparation |
+
+## Private Review
+
+Unreviewed or sensitive screenshots belong in `private-review/`. That directory
+is excluded from Git and must not be published.
+
+Examples of content requiring sanitization:
+
+- Internal engine or provider names
+- Model names and tuning values
+- Local or remote service URLs
+- Voice identifiers
+- Customer or installation identifiers
+- Conversation text and session identifiers
+- Source document names and internal knowledge
+- Test-character names and debug overlays
 
 ## Presentation Rules
 
@@ -25,7 +34,7 @@ images. Each image must help explain one part of the product story.
 - Crop aggressively so irrelevant controls do not create visual noise
 - Use staged characters and non-customer content
 - Recreate diagrams rather than capturing production infrastructure
-- Blur is not sufficient protection for highly sensitive screens; omit them
+- Blurring is not sufficient protection for highly sensitive screens; omit them
 
 ## Privacy And IP Review
 

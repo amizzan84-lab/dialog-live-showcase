@@ -14,6 +14,27 @@ It is not a prototype or a speculative architecture exercise. Dialog Live is
 already operational across multiple client projects and has been selected for
 the **ElevenLabs Grants** program.
 
+## Product Preview
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="screenshots/dialog-live-dante-idle.png" alt="Dialog Live character in the idle state">
+    </td>
+    <td width="50%" align="center">
+      <img src="screenshots/dialog-live-dante-speaking.png" alt="Dialog Live character speaking with neural lip synchronization">
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Idle character experience</strong></td>
+    <td align="center"><strong>Speech-driven neural animation</strong></td>
+  </tr>
+</table>
+
+The two images show the same character moving from an idle presentation into a
+generated speaking state. The voice response and facial motion are coordinated
+at runtime rather than selected from a library of complete recorded answers.
+
 The project is larger than the avatar visible to the end user. It includes:
 
 1. **Dialog Studio**, a desktop application used to create and configure each
@@ -225,6 +246,21 @@ The avatar response is not a simple pre-recorded talking video. A local,
 GPU-accelerated neural inference pipeline analyzes the generated speech and
 renders character-specific lip and facial motion while the response is being
 presented.
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="screenshots/runtime-ai-loading.png" alt="Dialog Live loading the local neural runtime">
+    </td>
+    <td width="50%" align="center">
+      <img src="screenshots/runtime-animation-loading.png" alt="Dialog Live preparing character animation data">
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Neural runtime initialization</strong></td>
+    <td align="center"><strong>Character animation preparation</strong></td>
+  </tr>
+</table>
 
 The runtime also has to manage:
 
