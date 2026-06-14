@@ -15,6 +15,7 @@ A brain defines the approved behavior of one character:
 - Voice configuration
 - Language-model preferences
 - Optional knowledge and search capabilities
+- Character-specific agent tools
 - Logging attribution
 - Fallback behavior
 - Enabled or disabled status
@@ -25,6 +26,9 @@ character without requiring every client package to be rebuilt.
 
 Character-specific behavior can be updated independently. Shared defaults can
 be updated centrally where appropriate.
+
+Changes to agent behavior and optional tool integrations can be refreshed for
+the affected character without taking every other character offline.
 
 The internal prompt format, loading mechanism, refresh strategy, and source
 layout are not disclosed here.

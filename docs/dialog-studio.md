@@ -64,6 +64,11 @@ Studio provides one place to configure the character's conversational identity:
 The configuration is validated before use. Character-specific behavior can be
 updated without modifying the shared platform.
 
+Studio also controls which agent tools are available to the character. New tool
+adapters can be integrated into the platform and then enabled only for the
+characters that require them, preserving both flexibility and least-privilege
+access.
+
 ## Integrated Testing
 
 The application includes a focused conversation test that does not require the
@@ -73,6 +78,7 @@ This shortens iteration time for:
 
 - Speech recognition
 - Character behavior
+- Agent tool selection and tool results
 - Voice output
 - Knowledge responses
 - Error handling

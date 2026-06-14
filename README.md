@@ -10,16 +10,33 @@
 Dialog Live is an end-to-end platform for creating, operating, and remotely
 managing conversational digital characters.
 
+It is not a prototype or a speculative architecture exercise. Dialog Live is
+already operational across multiple client projects and has been selected for
+the **ElevenLabs Grants** program.
+
 The project is larger than the avatar visible to the end user. It includes:
 
 1. **Dialog Studio**, a desktop application used to create and configure each
    character.
 2. **Dialog Live**, the realtime application experienced by visitors.
-3. **A remote platform**, used to manage AI configurations, customers,
+3. **An agentic AI platform**, where every character can reason, use approved
+   tools, access scoped knowledge, and produce a voice response.
+4. **A remote platform**, used to manage AI configurations, customers,
    installations, access, knowledge, logs, and updates.
 
-This repository explains the engineering work behind those three areas without
+This repository explains the engineering work behind those areas without
 publishing enough detail to reproduce the commercial platform.
+
+## At A Glance
+
+| Product signal | What it demonstrates |
+| --- | --- |
+| Operational with multiple clients | The platform has moved beyond prototype validation |
+| ElevenLabs Grants participant | External recognition of the voice AI use case |
+| End-to-end product ownership | Authoring, AI, realtime media, operations, and delivery |
+| Per-character AI agents | Configurable reasoning, tools, knowledge, memory, and voice |
+| Remote customer management | Production lifecycle beyond a single local installation |
+| Structured logs and diagnostics | Supportability and operational accountability |
 
 ## The Product In One Diagram
 
@@ -27,13 +44,16 @@ publishing enough detail to reproduce the commercial platform.
 flowchart LR
     CREATOR["Content creator"]
     STUDIO["Dialog Studio"]
+    AGENTS["Agentic AI Platform"]
     PLATFORM["Remote Platform"]
     LIVE["Dialog Live Installation"]
     VISITOR["Visitor"]
 
     CREATOR -->|"creates and publishes a character"| STUDIO
-    STUDIO -->|"approved configuration and release"| PLATFORM
-    PLATFORM -->|"managed AI and access"| LIVE
+    STUDIO -->|"publishes approved behavior"| AGENTS
+    STUDIO -->|"customer and release management"| PLATFORM
+    AGENTS <-->|"authorized conversations"| LIVE
+    PLATFORM -->|"installation access and policy"| LIVE
     VISITOR <-->|"realtime voice interaction"| LIVE
     LIVE -->|"usage, health, and conversation logs"| PLATFORM
 ```
@@ -80,7 +100,52 @@ someone who should not need to operate the underlying tools manually.
 
 [Read the Dialog Studio case study](docs/dialog-studio.md)
 
-## 2. Dialog Live Runtime
+## 2. Agentic AI Platform
+
+Every character has an independent conversational agent rather than sharing one
+hard-coded chatbot behavior.
+
+An agent can combine:
+
+- Character identity and behavioral instructions
+- Session-aware conversation memory
+- Speech-to-text input
+- Language-model reasoning
+- A character-specific set of approved tools
+- Customer and character-scoped knowledge
+- Text normalization and natural voice synthesis
+- Logging, usage attribution, and fallback behavior
+
+```mermaid
+flowchart LR
+    AUDIO["Visitor audio"]
+    STT["Speech-to-Text"]
+    AGENT["Character Agent"]
+    MEMORY["Session Memory"]
+    TOOLS["Approved Tools"]
+    KNOWLEDGE["Scoped Knowledge"]
+    TTS["Text-to-Speech"]
+    RESPONSE["Spoken Response"]
+
+    AUDIO --> STT --> AGENT
+    AGENT <--> MEMORY
+    AGENT <-->|"tool calls"| TOOLS
+    TOOLS <--> KNOWLEDGE
+    AGENT --> TTS --> RESPONSE
+```
+
+The tool system is extensible. A new capability can be added behind a defined
+contract, registered for selected characters, and exposed to the agent without
+coupling the core conversation pipeline to one provider or customer workflow.
+
+Examples of tool categories include curated knowledge search, controlled web
+research, business-system adapters, and experience-specific actions. The
+production tool implementations, prompts, schemas, and orchestration rules are
+not published.
+
+[Read the agentic AI case study](docs/agentic-ai-platform.md)
+
+## 3. Dialog Live Runtime
 
 Dialog Live is the visitor-facing application. It coordinates microphone input,
 conversation processing, generated speech, character animation, and UI state as
@@ -119,7 +184,7 @@ and optimization techniques are not included here.
 
 [Read the Dialog Live runtime case study](docs/dialog-live-runtime.md)
 
-## 3. Remote Platform
+## 4. Remote Platform
 
 The remote platform separates protected intelligence and administration from
 the software delivered to an installation.
@@ -197,7 +262,11 @@ operations:
 - Designed the overall architecture and service boundaries
 - Built the character creation and management workflow in Dialog Studio
 - Built the realtime interaction lifecycle in Dialog Live
-- Integrated replaceable speech, language, knowledge, and voice services
+- Built a per-character agent architecture with memory and tool calling
+- Designed an extensible tool contract for new knowledge and business capabilities
+- Integrated speech-to-text and text-to-speech into the conversational lifecycle
+- Added language-aware voice preparation for more natural spoken output
+- Integrated replaceable language, knowledge, speech, and voice providers
 - Designed per-character configuration and remote update behavior
 - Built customer, installation, credential, and release-management workflows
 - Implemented structured conversation logging and operational diagnostics
@@ -209,25 +278,48 @@ This was an end-to-end product effort: from the visitor interaction to the
 desktop authoring tools and the operational systems needed to deliver and
 support installations.
 
-## Technology Areas
+## Selected Technologies
 
-- React, TypeScript, and Electron desktop applications
-- Python service architecture and asynchronous processing
-- Realtime browser media and bidirectional communication
-- AI orchestration with replaceable provider boundaries
-- Managed relational data and access control
-- Hardware-accelerated media processing
-- Containerized remote services
-- Automated packaging, update, and deployment workflows
+| Area | Technologies used |
+| --- | --- |
+| Desktop applications | React, TypeScript, Vite, Electron |
+| Backend services | Python, FastAPI, asynchronous service design |
+| Realtime communication | WebSocket and browser media APIs |
+| Agentic AI | LLM orchestration, native tool calling, provider adapters |
+| Voice AI | ElevenLabs Speech-to-Text and Text-to-Speech |
+| Knowledge | Character-scoped retrieval and extensible tool adapters |
+| Data platform | Supabase, PostgreSQL, row-level access control |
+| Remote runtime | Docker, reverse proxy, managed Linux services |
+| Delivery | GitHub Actions, desktop packaging, thin client releases |
+| Media | WebGL and hardware-accelerated visual processing |
 
-This list describes technology areas only. It is not a production dependency
-manifest.
+The table communicates the breadth of the work without acting as a production
+dependency manifest or implementation guide.
+
+## From Prototype To Product
+
+The engineering effort also included the work required to move from a promising
+demo to a system that can be delivered:
+
+- Repeatable character onboarding instead of hand-built configuration
+- Tool-enabled agents instead of fixed question-and-answer scripts
+- Customer and installation isolation
+- Protected remote services and thin distributed clients
+- Revocable installation access
+- Structured conversation and usage attribution
+- Health diagnostics for support
+- Remote character updates
+- Packaging and update workflows
+- Cleanup across local and remote resources
+
+These capabilities are now used in operational projects for multiple clients.
 
 ## Repository Guide
 
 | Document | What it explains |
 | --- | --- |
 | [Dialog Studio](docs/dialog-studio.md) | Character creation, testing, validation, publishing, and export |
+| [Agentic AI Platform](docs/agentic-ai-platform.md) | Per-character agents, tool calling, STT, TTS, memory, and extensibility |
 | [Dialog Live Runtime](docs/dialog-live-runtime.md) | Visitor interaction and realtime application responsibilities |
 | [Remote Platform](docs/remote-platform.md) | Remote brains, customers, installations, credentials, and delivery |
 | [Data and Observability](docs/data-and-observability.md) | Database concepts, conversation logs, usage, and health diagnostics |
