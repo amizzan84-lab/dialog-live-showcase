@@ -8,6 +8,11 @@ This folder contains only media approved for the portfolio repository.
 | --- | --- |
 | `dialog-live-dante-idle.png` | Hero view of the idle character experience |
 | `dialog-live-dante-speaking.png` | Hero view of speech-driven neural animation |
+| `dialog-live-einstein.png` | A second configuration-driven character experience |
+| `dialog-studio-overview.png` | Character readiness and Studio workflow overview |
+| `dialog-studio-animation-management.png` | Visual-state and animation asset management |
+| `dialog-studio-wiki-llm.png` | Character-scoped Wiki LLM management |
+| `dialog-studio-conversation-logs.png` | Sanitized operational conversation logs |
 | `runtime-ai-loading.png` | Runtime initialization |
 | `runtime-animation-loading.png` | Character animation preparation |
 
@@ -26,6 +31,9 @@ Examples of content requiring sanitization:
 - Conversation text and session identifiers
 - Source document names and internal knowledge
 - Test-character names and debug overlays
+
+The current private-review set still contains configuration and navigation
+screens that are intentionally not published.
 
 ## Presentation Rules
 

@@ -98,6 +98,11 @@ are intentionally omitted.
 Dialog Studio turns a complex technical workflow into a guided desktop
 experience. It is the control center used before a character reaches a kiosk.
 
+![Dialog Studio character overview](screenshots/dialog-studio-overview.png)
+
+*A character overview brings identity, media readiness, AI configuration,
+knowledge, testing, and export status into one operational workspace.*
+
 ### What It Handles
 
 - Creating and editing character profiles
@@ -111,6 +116,11 @@ experience. It is the control center used before a character reaches a kiosk.
 - Associating characters with customers and installations
 - Producing different release packages for local testing and managed delivery
 - Updating or removing local and remote character resources
+
+![Dialog Studio animation management](screenshots/dialog-studio-animation-management.png)
+
+*Dialog Studio manages the visual states and prepared media used by the
+realtime character experience.*
 
 ```mermaid
 flowchart LR
@@ -208,6 +218,11 @@ into topic-oriented wiki knowledge. At conversation time, a dedicated tool
 searches only the knowledge assigned to the current customer and character,
 then returns focused context to the agent.
 
+![Dialog Studio Wiki LLM management](screenshots/dialog-studio-wiki-llm.png)
+
+*The Wiki LLM workspace manages source documents and the topic-oriented pages
+generated for one character.*
+
 This improves:
 
 - Coherence across related facts
@@ -272,6 +287,19 @@ The runtime also has to manage:
 - Local hardware and service startup
 - Health checks, recovery, and actionable diagnostics
 - Kiosk packaging, updates, and unattended operation
+
+### Multiple Character Experiences
+
+The same runtime architecture supports distinct characters, identities,
+knowledge, voices, and visual environments without creating a separate product
+fork for each experience.
+
+<p align="center">
+  <img src="screenshots/dialog-live-einstein.png" alt="A second Dialog Live character experience" width="56%">
+</p>
+
+*A second staged character demonstrates the configuration-driven runtime beyond
+the Dante example used in the opening preview.*
 
 The proprietary media pipeline, synchronization strategy, timing parameters,
 and optimization techniques are not included here.
@@ -385,6 +413,12 @@ Conversation logging is designed to answer practical operational questions:
 Internal tests are explicitly excluded from customer conversation history.
 Sensitive credentials are not stored in logs, and administrative database
 access is kept on protected services rather than distributed clients.
+
+![Dialog Studio conversation log viewer](screenshots/dialog-studio-conversation-logs.png)
+
+*The operational log view supports filtering, support investigation, and
+character-scoped lifecycle actions. Identifiers and provider details are
+redacted in this portfolio image.*
 
 [Read about data and observability](docs/data-and-observability.md)
 
