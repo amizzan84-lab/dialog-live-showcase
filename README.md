@@ -3,8 +3,9 @@
 > **Built by me: an end-to-end AI platform for realtime conversational
 > characters in physical installations.**
 
-[Official website](https://dialogexperience.com) · Operational across multiple
-client projects · Selected for **ElevenLabs Grants**
+[Official website](https://dialogexperience.com) · Installed for clients in
+Italy and Switzerland · Selected for **ElevenLabs Grants** · Completed the
+**Boldbrain** startup acceleration program in Ticino
 
 Dialog Live combines agentic AI, voice interaction, custom knowledge memory,
 neural character animation, desktop authoring tools, and managed remote
@@ -37,8 +38,8 @@ not selected from a library of complete pre-recorded videos.
 
 | | |
 | --- | --- |
-| **Product maturity** | Operational with multiple client projects |
-| **External recognition** | Selected for ElevenLabs Grants |
+| **Product maturity** | Installed for multiple clients across Italy and Switzerland |
+| **External recognition** | Selected for ElevenLabs Grants and completed the Boldbrain startup acceleration program in Ticino |
 | **AI architecture** | Per-character agents with memory and extensible tools |
 | **Knowledge** | Custom Wiki LLM memory replacing the earlier RAG approach |
 | **Voice** | Speech-to-Text and Text-to-Speech |
